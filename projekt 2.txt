@@ -1,0 +1,134 @@
+set dateformat dmy
+create table adres(
+  id_adres int primary key identity(1,1) not null,
+  ulica varchar(50) not null check(len(ulica)>2),
+  numer_domu INT not null,
+  numer_lokalu INT,
+  kod_pocz varchar(6) not null check(kod_pocz like '[0-9][0-9]-[0-9][0-9][0-9]'),
+  miejscowosc varchar(20) not null)
+
+create table student(
+  id_student int primary key identity(1,1) not null,
+  imie varchar(30) not null check(len(imie)>2),
+  nazwisko varchar(30) not null check(len(nazwisko)>2),
+  wydzial varchar(50) not null,
+  kierunek varchar(30) not null,
+  data_ur date not null,
+  pesel varchar(11) not null check(len(pesel)=11),
+  id_adres int foreign key references adres(id_adres) not null)
+  
+create table wykladowca(
+  id_wykladowca int primary key identity(1,1) not null,
+  imie varchar(20) not null check(len(imie)>2),
+  nazwisko varchar(20) not null check(len(nazwisko)>2),
+  wydzial varchar(50) not null,
+  kierunek varchar(30) not null,
+  data_ur date not null,
+  pesel varchar(11) not null check(len(pesel)=11),
+  stopien varchar(20) not null,
+  id_adres int foreign key references adres(id_adres) not null)
+  
+create table p1_miejsce(
+  id_1_miejsce int primary key not null)
+  
+
+create table d2_miejsce(
+  id_2_miejsce int primary key not null)
+
+create table t3_miejsce(
+  id_3_miejsce int primary key not null)
+  
+create table kategoria(
+  id_kategoria int primary key identity(1,1) not null,
+  nazwa varchar(20) not null,
+  id_1_miejsce int foreign key references p1_miejsce(id_1_miejsce),
+  id_2_miejsce int foreign key references d2_miejsce(id_2_miejsce),
+  id_3_miejsce int foreign key references t3_miejsce(id_3_miejsce))
+  
+create table fotografia(
+  id_fotografia int primary key identity(1,1) not null,
+  id_kategoria int foreign key references kategoria(id_kategoria) not null,
+  id_student int foreign key references student(id_student) not null)
+  
+create table wykladowca_ocenia_kategoria(
+  ocena int not null
+  id_kategoria int foreign key references kategoria(id_kategoria) not null,
+  id_wykladowca int foreign key references wykladowca(id_wykladowca) not null)
+  
+create table nagroda(
+  id_nagroda int primary key identity(1,1) not null,
+  produkt varchar(30) not null,
+  cena money not null,
+  id_1_miejsce int foreign key references p1_miejsce(id_1_miejsce),
+  id_2_miejsce int foreign key references d2_miejsce(id_2_miejsce),
+  id_3_miejsce int foreign key references t3_miejsce(id_3_miejsce))
+  
+insert into adres values ('Polanki',20,NULL,'88-111','Krupy')
+insert into adres values ('Kasprowicza',15,10,'55-320','Grudzi¹dz')
+insert into adres values ('Partyzantów',8,NULL,'69-420','Sfornegacie')
+insert into adres values ('Okrzei',72,12,'42-069','Tczew')
+insert into adres values ('Parkowa',3,1,'83-110','Gdañsk')
+
+insert into student values ('Dawid','Pasieka','Matematyki i Fizyki','Fizyka stosowana','05-12-1999','99120512345',2)
+insert into student values ('Celina','Czyszczoñ','Architektury','Architektura Przestrzenna','28-01-1996','96012812345',4)
+insert into student values ('Zbyszek','Michnik-Murszewski','Informatyki','Programowanie','04-06-1995','95060412345',4)
+insert into student values ('Maria','Jopek','Nauk Spo³ecznych','Dziennikarstwo','04-11-1994','94110412345',2)
+insert into student values ('Patrycja','Nowak','Filologia','Angielska','26-06-1996','96062612345',4)
+
+insert into wykladowca values ('Rudolf','Renifer','Matematyki i Fizyki','Matematyka dla nauczycieli','06-12-1977','77120612345','doktor',1)
+insert into wykladowca values ('Miko³aj','Œwiêty','Nauk Spo³ecznych','Dziennikarstwo','06-12-1977','77120612345','profesor',5)
+insert into wykladowca values ('Teresa','Œwiêta','Nauk Spo³ecznych','Pedagogika wczesnoszkolna','24-12-1979','79122412345','doktor',5)
+insert into wykladowca values ('Maria','Gwiazdka','Filologia','Niemiecka','01-09-1945','45090112345','magister',3)
+insert into wykladowca values ('Antoni','Gwiazdka','Filologia','Niemiecka','11-11-1938','38111112345','profesor',1)
+
+insert into p1_miejsce values (1)
+insert into p1_miejsce values (2)
+insert into p1_miejsce values (3)
+insert into p1_miejsce values (4)
+insert into p1_miejsce values (5)
+
+insert into d2_miejsce values (1)
+insert into d2_miejsce values (2)
+insert into d2_miejsce values (3)
+insert into d2_miejsce values (4)
+insert into d2_miejsce values (5)
+
+insert into t3_miejsce values (1)
+insert into t3_miejsce values (2)
+insert into t3_miejsce values (3)
+insert into t3_miejsce values (4)
+insert into t3_miejsce values (5)
+
+insert into kategoria values ('Rekreacja',1,1,1)
+insert into kategoria values ('Sport',2,2,2)
+insert into kategoria values ('Uczelnia',3,3,3)
+insert into kategoria values ('Hobby',4,4,4)
+insert into kategoria values ('Nauka',5,5,5)
+
+insert into fotografia values (4,2)
+insert into fotografia values (3,1)
+insert into fotografia values (5,3)
+insert into fotografia values (2,2)
+insert into fotografia values (1,5)
+
+insert into wykladowca_ocenia_kategoria values (2,1,1)
+insert into wykladowca_ocenia_kategoria values (3,2,2)
+insert into wykladowca_ocenia_kategoria values (4,3,3)
+insert into wykladowca_ocenia_kategoria values (5,4,4)
+insert into wykladowca_ocenia_kategoria values (1,5,5)
+
+insert into nagroda values ('Kamera GoPro',350.00,1,null,null)
+insert into nagroda values ('Kamera GoPro',350.00,2,null,null)
+insert into nagroda values ('Kamera GoPro',350.00,3,null,null)
+insert into nagroda values ('Kamera GoPro',350.00,4,null,null)
+insert into nagroda values ('Kamera GoPro',350.00,5,null,null)
+insert into nagroda values ('Czytnik eBook',100.000,null,1,null)
+insert into nagroda values ('Czytnik eBook',100.000,null,2,null)
+insert into nagroda values ('Czytnik eBook',100.000,null,3,null)
+insert into nagroda values ('Czytnik eBook',100.000,null,4,null)
+insert into nagroda values ('Czytnik eBook',100.000,null,5,null)
+insert into nagroda values ('Album na zdjêcia',50.00,null,null,1)
+insert into nagroda values ('Album na zdjêcia',50.00,null,null,2)
+insert into nagroda values ('Album na zdjêcia',50.00,null,null,3)
+insert into nagroda values ('Album na zdjêcia',50.00,null,null,4)
+insert into nagroda values ('Album na zdjêcia',50.00,null,null,5)
