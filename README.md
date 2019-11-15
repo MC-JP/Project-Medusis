@@ -8,7 +8,6 @@ Patrycja Brzezińska
 
 https://docs.google.com/document/d/1t5qRAAduLr1Mo1f2VQ-if8JmF5CEt6tbH88fPiZCSmI/edit?usp=sharing
 
-Q&A:
 Who are the users of the product?
 Internet users for entertainment.
 
@@ -20,6 +19,10 @@ There exist extensions for browsers, which filter profanities. We want to do the
 
 Competitor review:
 See => <What is the context?>
+
+Formulate Strategy:
+-Research if it is doable;
+-The prototype would be just a programme, which inserts swear words in text files and not on browsers yet;
 
 Design Sprint
 Five separate days:
